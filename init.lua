@@ -1,6 +1,7 @@
 require("config.lazy")
 require("git-config")
 require("mason-config")
+require("cmp-config")
 
 vim.o.number = true
 vim.o.relativenumber = true
@@ -9,7 +10,7 @@ vim.o.termguicolors = true
 
 vim.opt.completeopt = {'menuone', 'noselect', 'noinsert'}
 vim.opt.shortmess = vim.opt.shortmess + { c = true}
-vim.api.nvim_set_option('updatetime', 300) 
+vim.api.nvim_set_option('updatetime', 300)
 vim.opt.autoindent = true
 
 vim.cmd [[
