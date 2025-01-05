@@ -12,6 +12,13 @@ vim.opt.completeopt = {'menuone', 'noselect', 'noinsert'}
 vim.opt.shortmess = vim.opt.shortmess + { c = true}
 vim.opt.clipboard = "unnamedplus"
 vim.api.nvim_set_option('updatetime', 300)
+vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
 vim.opt.autoindent = true
 
 vim.cmd [[
@@ -27,10 +34,10 @@ local sign = function(opts)
   })
 end
 
-sign({name = 'DiagnosticSignError', text = '|'})
-sign({name = 'DiagnosticSignWarn', text = '|'})
-sign({name = 'DiagnosticSignHint', text = '|'})
-sign({name = 'DiagnosticSignInfo', text = '|'})
+-- sign({name = 'DiagnosticSignError', text = '|'})
+-- sign({name = 'DiagnosticSignWarn', text = '|'})
+-- sign({name = 'DiagnosticSignHint', text = '|'})
+-- sign({name = 'DiagnosticSignInfo', text = '|'})
 
 vim.diagnostic.config({
     virtual_text = false,

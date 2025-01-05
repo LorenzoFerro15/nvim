@@ -120,7 +120,8 @@ cmp.setup({
     end, {'i', 's'}),
     ['<Tab>'] = cmp.mapping(function(fallback)
       local col = vim.fn.col('.') - 1
-      if col == 0 then
+      local line = vim.fn.getline('.')
+      if col == 0 or line:sub(col, col):match('%s') then
         fallback()
       elseif cmp.visible() then
         cmp.select_next_item()
