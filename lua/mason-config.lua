@@ -67,12 +67,6 @@ local buffer_autoformat = function(bufnr)
   })
 end
 
-require("mason-lspconfig").setup_handlers {
-	function(server_name)
-		require("lspconfig")[server_name].setup{}
-	end,
-}
-
 require('lspconfig').biome.setup({
   single_file_support = false,
   on_attach = function(client, bufnr)
