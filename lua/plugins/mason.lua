@@ -2,6 +2,7 @@ return {
 	{
 		"williamboman/mason.nvim",
 		lazy = false,
+		version = false,
 		opts = {},
 	},
 
@@ -9,6 +10,7 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
+		version = false,
 		config = function()
 			local cmp = require("cmp")
 
@@ -36,6 +38,7 @@ return {
 		"neovim/nvim-lspconfig",
 		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
+		version = false,
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "williamboman/mason.nvim" },
@@ -88,6 +91,7 @@ return {
 	},
 	{
 		"stevearc/conform.nvim",
+		version = false,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			local conform = require("conform")

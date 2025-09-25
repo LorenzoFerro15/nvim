@@ -2,11 +2,12 @@ return {
     {
         "windwp/nvim-autopairs",
         event = "InsertEnter",
-        config = true
+        config = true,
+	version = false
     },
     {
         "kylechui/nvim-surround",
-        version = "*", 
+        version = false,  
         event = "VeryLazy",
         config = function()
             require("nvim-surround").setup({
