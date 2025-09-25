@@ -2,7 +2,6 @@ require("config.lazy")
 require("git-config")
 require("mason-config")
 require("cmp-config")
--- require("tabby-conf")
 
 vim.o.number = true
 vim.o.relativenumber = true
