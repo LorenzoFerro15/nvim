@@ -1,3 +1,3 @@
 return {
-	"folke/tokyonight.nvim",
+	"vim-scripts/Wombat",
 }

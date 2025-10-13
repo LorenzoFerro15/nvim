@@ -1,3 +1,4 @@
+-- Bootstrap lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
 	local out = vim.fn.system({
@@ -20,22 +21,13 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Set leader keys
 vim.g.mapleader = ","
 vim.g.maplocalleader = "\\"
 
+-- Setup lazy.nvim
 require("lazy").setup({
 	spec = { { import = "plugins" } },
-	install = { colorscheme = { "habamax" } },
 	checker = { enabled = true },
 })
-
-local builtin = require("telescope.builtin")
-local map = vim.keymap.set
-map("n", "<C-p>", builtin.find_files)
-map("n", "<leader>fg", builtin.live_grep)
-map("n", "<leader>fb", builtin.buffers)
-map("n", "<leader>fh", builtin.help_tags)
-map("n", ",e", [[:e <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
-map("n", ",t", [[:tabe <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
-map("n", ",s", [[:split <C-R>=expand("%:p:h") . "/" <CR>]], { silent = false })
 

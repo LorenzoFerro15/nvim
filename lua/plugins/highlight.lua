@@ -1,4 +1,5 @@
 return {
 	"lukas-reineke/indent-blankline.nvim",
-	"HiPhish/nvim-ts-rainbow2",
+	main = "ibl",
+	opts = {},
 }

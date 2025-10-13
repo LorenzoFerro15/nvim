@@ -53,21 +53,6 @@ return {
 			lsp_defaults.capabilities =
 				vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(event)
-					local opts = { buffer = event.buf }
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-					vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
-					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-					vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
-					vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
-					vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
-				end,
-			})
-
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "pyright", "gopls" },
 				handlers = {
@@ -100,10 +85,6 @@ return {
 					python = { "isort", "black" },
 				},
 			})
-
-			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-				require("conform").format({ lsp_fallback = true, timeout_ms = 1000 })
-			end, { desc = "Format file or range" })
 		end,
 	},
 }
