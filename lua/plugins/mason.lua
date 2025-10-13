@@ -2,15 +2,18 @@ return {
 	{
 		"williamboman/mason.nvim",
 		lazy = false,
-		version = false,
 		opts = {},
 	},
 
-	-- Autocompletion
 	{
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
-		version = false,
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"saadparwaiz1/cmp_luasnip",
+			"hrsh7th/cmp-buffer",
+			"hrsh7th/cmp-path",
+		},
 		config = function()
 			local cmp = require("cmp")
 
@@ -18,70 +21,56 @@ return {
 				sources = {
 					{ name = "nvim_lsp" },
 					{ name = "luasnip" },
+					{ name = "buffer" },
+					{ name = "path" },
 				},
 				mapping = cmp.mapping.preset.insert({
 					["<C-Space>"] = cmp.mapping.complete(),
 					["<C-u>"] = cmp.mapping.scroll_docs(-4),
 					["<C-d>"] = cmp.mapping.scroll_docs(4),
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
 				}),
 				snippet = {
 					expand = function(args)
-						vim.snippet.expand(args.body)
+						require("luasnip").lsp_expand(args.body)
 					end,
 				},
 			})
 		end,
 	},
 
-	-- LSP
 	{
 		"neovim/nvim-lspconfig",
-		cmd = { "LspInfo", "LspInstall", "LspStart" },
 		event = { "BufReadPre", "BufNewFile" },
-		version = false,
 		dependencies = {
-			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "williamboman/mason.nvim" },
-			{ "williamboman/mason-lspconfig.nvim" },
+			"hrsh7th/cmp-nvim-lsp",
+			"williamboman/mason-lspconfig.nvim",
 		},
-		init = function()
-			-- Reserve a space in the gutter
-			-- This will avoid an annoying layout shift in the screen
-			vim.opt.signcolumn = "yes"
-		end,
 		config = function()
-			local lsp_defaults = require("lspconfig").util.default_config
+			vim.opt.signcolumn = "yes"
 
-			-- Add cmp_nvim_lsp capabilities settings to lspconfig
-			-- This should be executed before you configure any language server
+			local lsp_defaults = require("lspconfig").util.default_config
 			lsp_defaults.capabilities =
 				vim.tbl_deep_extend("force", lsp_defaults.capabilities, require("cmp_nvim_lsp").default_capabilities())
 
-			-- LspAttach is where you enable features that only work
-			-- if there is a language server active in the file
 			vim.api.nvim_create_autocmd("LspAttach", {
-				desc = "LSP actions",
 				callback = function(event)
 					local opts = { buffer = event.buf }
-
-					vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", opts)
-					vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", opts)
-					vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<cr>", opts)
-					vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<cr>", opts)
-					vim.keymap.set("n", "go", "<cmd>lua vim.lsp.buf.type_definition()<cr>", opts)
-					vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", opts)
-					vim.keymap.set("n", "gs", "<cmd>lua vim.lsp.buf.signature_help()<cr>", opts)
-					vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
-					vim.keymap.set({ "n", "x" }, "<F3>", "<cmd>lua vim.lsp.buf.format({async = true})<cr>", opts)
-					vim.keymap.set("n", "<F4>", "<cmd>lua vim.lsp.buf.code_action()<cr>", opts)
+					vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+					vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
+					vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+					vim.keymap.set("n", "go", vim.lsp.buf.type_definition, opts)
+					vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+					vim.keymap.set("n", "gs", vim.lsp.buf.signature_help, opts)
+					vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
+					vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
 				end,
 			})
 
 			require("mason-lspconfig").setup({
-				ensure_installed = {"pyright", "gopls"},
+				ensure_installed = { "lua_ls", "pyright", "gopls" },
 				handlers = {
-					-- this first function is the "default handler"
-					-- it applies to every language server without a "custom handler"
 					function(server_name)
 						require("lspconfig")[server_name].setup({})
 					end,
@@ -89,14 +78,12 @@ return {
 			})
 		end,
 	},
+
 	{
 		"stevearc/conform.nvim",
-		version = false,
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			local conform = require("conform")
-
-			conform.setup({
+			require("conform").setup({
 				formatters_by_ft = {
 					javascript = { "prettier" },
 					typescript = { "prettier" },
@@ -113,14 +100,10 @@ return {
 					python = { "isort", "black" },
 				},
 			})
+
 			vim.keymap.set({ "n", "v" }, "<leader>mp", function()
-				conform.format({
-					lsp_fallback = true,
-					async = false,
-					timeout_ms = 500,
-				})
-			vim.keymap.set('v', '<Leader>mf', vim.lsp.buf.format, bufopts)
-			end, { desc = "Format file orrange (in visual mode)" })
+				require("conform").format({ lsp_fallback = true, timeout_ms = 1000 })
+			end, { desc = "Format file or range" })
 		end,
 	},
 }

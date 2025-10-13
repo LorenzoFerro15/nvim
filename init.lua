@@ -1,62 +1,44 @@
 require("config.lazy")
 require("git-config")
-require("mason-config")
-require("cmp-config")
 
-vim.o.number = true
-vim.o.relativenumber = true
-vim.o.cursorline = true
-vim.o.termguicolors = true
-vim.o.scrolloff = 3
+local opt = vim.opt
+opt.number = true
+opt.relativenumber = true
+opt.cursorline = true
+opt.termguicolors = true
+opt.scrolloff = 3
+opt.autoindent = true
+opt.clipboard = "unnamedplus"
+opt.completeopt = { "menuone", "noselect", "noinsert" }
+opt.shortmess:append("c")
+opt.updatetime = 300
+opt.signcolumn = "yes"
 
-vim.opt.completeopt = {'menuone', 'noselect', 'noinsert'}
-vim.opt.shortmess = vim.opt.shortmess + { c = true}
-vim.opt.clipboard = "unnamedplus"
--- vim.opt.colorcolumn = "80"
-vim.api.nvim_set_option('updatetime', 300)
-vim.api.nvim_set_keymap("n", "<leader>ta", ":$tabnew<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>tc", ":tabclose<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>to", ":tabonly<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>tn", ":tabn<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>tp", ":tabp<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>tmp", ":-tabmove<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>tmn", ":+tabmove<CR>", { noremap = true })
-vim.opt.autoindent = true
+vim.cmd("colorscheme retrobox")
 
-vim.cmd [[
-  syntax enable
-  colorscheme retrobox
-]]
-
--- local sign = function(opts)
---   vim.fn.sign_define(opts.name, {
---     texthl = opts.name,
---     text = opts.text,
---     numhl = ''
---   })
--- end
-
--- sign({name = 'DiagnosticSignError', text = '|'})
--- sign({name = 'DiagnosticSignWarn', text = '|'})
--- sign({name = 'DiagnosticSignHint', text = '|'})
--- sign({name = 'DiagnosticSignInfo', text = '|'})
+local map = vim.keymap.set
+map("n", "<leader>ta", ":$tabnew<CR>")
+map("n", "<leader>tc", ":tabclose<CR>")
+map("n", "<leader>to", ":tabonly<CR>")
+map("n", "<leader>tn", ":tabn<CR>")
+map("n", "<leader>tp", ":tabp<CR>")
+map("n", "<leader>tmp", ":-tabmove<CR>")
+map("n", "<leader>tmn", ":+tabmove<CR>")
 
 vim.diagnostic.config({
-    virtual_text = false,
-    signs = false,
-    update_in_insert = true,
-    underline = true,
-    severity_sort = false,
-    float = {
-        border = 'rounded',
-        source = 'always',
-        header = '',
-        prefix = '',
-    },
+	virtual_text = false,
+	signs = false,
+	update_in_insert = true,
+	underline = true,
+	float = {
+		border = "rounded",
+		source = "always",
+	},
 })
 
-vim.cmd([[
-set signcolumn=yes
-autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
-]])
+vim.api.nvim_create_autocmd("CursorHold", {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = false })
+	end,
+})
 

@@ -1,4 +1,3 @@
 return {
-    'folke/tokyonight.nvim',
-    version = false,
+	"folke/tokyonight.nvim",
 }

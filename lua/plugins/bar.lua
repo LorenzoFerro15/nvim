@@ -1,7 +1,4 @@
 return {
-    'nvim-lualine/lualine.nvim',
-    dependencies = {
-        'nvim-tree/nvim-web-devicons'
-    },
-    version = false,
+	"nvim-lualine/lualine.nvim",
+	dependencies = "nvim-tree/nvim-web-devicons",
 }
