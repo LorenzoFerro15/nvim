@@ -42,7 +42,7 @@ map({ "n", "v" }, "<leader>mp", function()
 end, { desc = "Format file or range" })
 
 -- Session management
-map("n", "<leader>wr", "<cmd>SessionSearch<CR>", { desc = "Session search" })
-map("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session" })
-map("n", "<leader>wd", "<cmd>SessionDelete<CR>", { desc = "Delete session" })
+map("n", "<leader>wr", "<cmd>AutoSession search<CR>", { desc = "Session search" })
+map("n", "<leader>ws", "<cmd>AutoSession save<CR>", { desc = "Save session" })
+map("n", "<leader>wd", "<cmd>AutoSession delete<CR>", { desc = "Delete session" })
 

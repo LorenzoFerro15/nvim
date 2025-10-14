@@ -13,6 +13,9 @@ vim.opt.scrolloff = 3
 vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 300
+vim.opt.tabstop = 4
+vim.o.listchars = 'space:·,tab:  '
+vim.o.list = true
 
 -- Set colorscheme
 vim.cmd("colorscheme retrobox")
