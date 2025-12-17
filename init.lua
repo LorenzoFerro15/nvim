@@ -17,8 +17,11 @@ vim.opt.tabstop = 4
 vim.o.listchars = 'space:·,tab:  '
 vim.o.list = true
 
+-- Session options
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
 -- Set colorscheme
-vim.cmd("colorscheme retrobox")
+vim.cmd.colorscheme 'melange'
 
 -- Diagnostic configuration
 vim.diagnostic.config({

@@ -1,3 +1,8 @@
 return {
-	"vim-scripts/Wombat",
+		{		
+				"vim-scripts/Wombat",
+		},
+		{
+				"savq/melange-nvim"
+		}
 }
