@@ -3,6 +3,9 @@ return {
 				"vim-scripts/Wombat",
 		},
 		{
-				"savq/melange-nvim"
-		}
+				"savq/melange-nvim",
+		},
+		{
+				"shaunsingh/nord.nvim",
+		},
 }

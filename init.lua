@@ -14,14 +14,14 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 300
 vim.opt.tabstop = 4
-vim.o.listchars = 'space:·,tab:  '
+vim.o.listchars = 'space:·,tab:➜ '
 vim.o.list = true
 
 -- Session options
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 -- Set colorscheme
-vim.cmd.colorscheme 'melange'
+vim.cmd.colorscheme 'nord'
 
 -- Diagnostic configuration
 vim.diagnostic.config({
