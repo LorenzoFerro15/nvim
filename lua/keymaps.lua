@@ -6,6 +6,9 @@ local map = vim.keymap.set
 -- Clear search highlights on <Esc>
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
+-- Oil file browser
+map("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
+
 -- Window navigation
 map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
 map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
