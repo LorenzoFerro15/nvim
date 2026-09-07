@@ -1,5 +1,5 @@
 return {
-		{		
+		{
 				"vim-scripts/Wombat",
 		},
 		{
