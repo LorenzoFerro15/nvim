@@ -1,5 +1,6 @@
 return {
 	"nvim-treesitter/nvim-treesitter",
+	branch = "main",
 	lazy = false,
 	build = ":TSUpdate",
 	config = function()
@@ -14,6 +15,11 @@ return {
 			"bash",
 			"python",
 			"go",
+			"javascript",
+			"typescript",
+			"tsx",
+			"html",
+			"css",
 			"json",
 			"yaml",
 			"markdown",

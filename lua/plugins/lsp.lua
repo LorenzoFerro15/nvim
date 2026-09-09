@@ -11,7 +11,6 @@ return {
 
 	{
 		"williamboman/mason.nvim",
-		cmd = "Mason",
 		opts = {},
 	},
 
@@ -20,15 +19,12 @@ return {
 		dependencies = { "williamboman/mason.nvim" },
 		opts = {
 			ensure_installed = {
-				-- LSPs
-				"lua-language-server",
-				"pyright",
-				"gopls",
-				-- Formatters
+				-- Formatters & Linters (LSPs are managed by mason-lspconfig)
 				"stylua",
 				"prettier",
 				"black",
 				"isort",
+				"goimports",
 			},
 		},
 	},
@@ -64,9 +60,6 @@ return {
 							capabilities = capabilities,
 							settings = {
 								Lua = {
-									diagnostics = {
-										globals = { "vim" },
-									},
 									workspace = {
 										checkThirdParty = false,
 									},

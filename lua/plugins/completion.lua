@@ -23,6 +23,13 @@ return {
 			local luasnip = require("luasnip")
 
 			cmp.setup({
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered(),
+				},
+				experimental = {
+					ghost_text = true,
+				},
 				snippet = {
 					expand = function(args)
 						luasnip.lsp_expand(args.body)
@@ -60,6 +67,22 @@ return {
 						end
 					end, { "i", "s" }),
 				}),
+			})
+
+			-- Link nvim-autopairs with cmp
+			local ok_autopairs, cmp_autopairs = pcall(require, "nvim-autopairs.completion.cmp")
+			if ok_autopairs then
+				cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+			end
+
+			-- Unlink snippet when leaving insert mode to prevent ghost jumps
+			vim.api.nvim_create_autocmd("ModeChanged", {
+				pattern = "*:n",
+				callback = function()
+					if luasnip.session.current_nodes[vim.api.nvim_get_current_buf()] and not luasnip.session.jump_active then
+						luasnip.unlink_current()
+					end
+				end,
 			})
 		end,
 	},
