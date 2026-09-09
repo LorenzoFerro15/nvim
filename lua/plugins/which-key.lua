@@ -10,6 +10,7 @@ return {
 			{ "<leader>h", group = "Git Hunks" },
 			{ "<leader>r", group = "Rename" },
 			{ "<leader>t", group = "Tabs" },
+			{ "<leader>u", desc = "Undo Tree" },
 			{ "<leader>w", group = "Session" },
 			{ "<leader>x", group = "Trouble / Diagnostics" },
 		},
