@@ -39,17 +39,26 @@ return {
 			pcall(ts.install, to_install)
 		end
 
-		-- Enable treesitter syntax highlighting for all supported buffers
-		vim.api.nvim_create_autocmd("FileType", {
-			callback = function(args)
-				pcall(vim.treesitter.start, args.buf)
-			end,
-		})
+		local indent_filetypes = {
+			lua = true,
+			go = true,
+			javascript = true,
+			typescript = true,
+			javascriptreact = true,
+			typescriptreact = true,
+			html = true,
+			css = true,
+			json = true,
+		}
 
-		-- Enable treesitter-based indentation
+		-- Preserve native indentation outside these filetypes and when no parser is available.
 		vim.api.nvim_create_autocmd("FileType", {
-			callback = function()
-				vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+			group = vim.api.nvim_create_augroup("config_treesitter", { clear = true }),
+			callback = function(args)
+				local started = pcall(vim.treesitter.start, args.buf)
+				if started and indent_filetypes[vim.bo[args.buf].filetype] then
+					vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+				end
 			end,
 		})
 	end,

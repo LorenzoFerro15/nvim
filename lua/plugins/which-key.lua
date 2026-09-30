@@ -8,6 +8,7 @@ return {
 			{ "<leader>f", group = "Find / Telescope" },
 			{ "<leader>g", group = "Git / Diff" },
 			{ "<leader>h", group = "Git Hunks" },
+			{ "<leader>m", group = "Markdown" },
 			{ "<leader>r", group = "Rename" },
 			{ "<leader>t", group = "Tabs" },
 			{ "<leader>u", desc = "Undo Tree" },

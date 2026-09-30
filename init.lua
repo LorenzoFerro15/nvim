@@ -2,12 +2,6 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = "\\"
 
--- Load plugin manager
-require("config.lazy")
-
--- Load keymaps
-require("keymaps")
-
 -- Editor settings
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -49,6 +43,10 @@ vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 -- Fast keycode timeouts (responsive leader and which-key)
 vim.opt.timeoutlen = 300
+
+-- Load plugins after setting editor options
+require("config.lazy")
+require("keymaps")
 
 -- Set colorscheme
 vim.cmd.colorscheme("nord")

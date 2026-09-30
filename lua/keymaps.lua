@@ -6,6 +6,13 @@ local map = vim.keymap.set
 -- Clear search highlights on <Esc>
 map("n", "<Esc>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlight" })
 
+-- Diagnostics also work in buffers checked by nvim-lint without an LSP.
+map("n", "[d", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Previous diagnostic" })
+map("n", "]d", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Next diagnostic" })
 
 -- Keep visual selection when indenting
 map("v", "<", "<gv", { desc = "Indent left and keep selection" })
@@ -47,13 +54,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Actions & Refactoring
 		map("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
 		map("n", "<F2>", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
+		map(
+			{ "n", "v" },
+			"<leader>ca",
+			vim.lsp.buf.code_action,
+			vim.tbl_extend("force", opts, { desc = "Code action" })
+		)
 		map("n", "<F4>", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code action" }))
 
 		-- Diagnostics
 		map("n", "<leader>cd", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Line diagnostics" }))
-		map("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
-		map("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
 
 		-- Inlay hints toggle (Neovim 0.10+)
 		if vim.lsp.inlay_hint then
@@ -66,7 +76,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Document symbol highlighting on cursor hold
 		local client = vim.lsp.get_client_by_id(event.data.client_id)
 		if client and client:supports_method("textDocument/documentHighlight", { bufnr = event.buf }) then
-			local highlight_group = vim.api.nvim_create_augroup("lsp_document_highlight_" .. event.buf, { clear = true })
+			local highlight_group =
+				vim.api.nvim_create_augroup("lsp_document_highlight_" .. event.buf, { clear = true })
 			vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 				buffer = event.buf,
 				group = highlight_group,
@@ -98,4 +109,3 @@ end, { desc = "Format file or range" })
 map("n", "<leader>wr", "<cmd>AutoSession search<CR>", { desc = "Session search" })
 map("n", "<leader>ws", "<cmd>AutoSession save<CR>", { desc = "Save session" })
 map("n", "<leader>wd", "<cmd>AutoSession delete<CR>", { desc = "Delete session" })
-

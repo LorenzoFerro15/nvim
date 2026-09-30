@@ -10,13 +10,13 @@ return {
 	},
 
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason.nvim",
 		opts = {},
 	},
 
 	{
 		"WhoIsSethDaniel/mason-tool-installer.nvim",
-		dependencies = { "williamboman/mason.nvim" },
+		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			ensure_installed = {
 				-- Formatters & Linters (LSPs are managed by mason-lspconfig)
@@ -25,6 +25,7 @@ return {
 				"black",
 				"isort",
 				"goimports",
+				"eslint_d",
 			},
 		},
 	},
@@ -33,41 +34,21 @@ return {
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			"williamboman/mason.nvim",
-			"williamboman/mason-lspconfig.nvim",
+			"mason-org/mason.nvim",
+			"mason-org/mason-lspconfig.nvim",
 			"hrsh7th/cmp-nvim-lsp",
 		},
 		config = function()
-			local lspconfig = require("lspconfig")
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-
-			local capabilities = vim.tbl_deep_extend(
-				"force",
-				lspconfig.util.default_config.capabilities,
-				cmp_nvim_lsp.default_capabilities()
-			)
-
+			vim.lsp.config("*", {
+				capabilities = require("cmp_nvim_lsp").default_capabilities(),
+			})
+			vim.lsp.config("lua_ls", {
+				settings = {
+					Lua = { workspace = { checkThirdParty = false } },
+				},
+			})
 			require("mason-lspconfig").setup({
 				ensure_installed = { "lua_ls", "pyright", "gopls" },
-				handlers = {
-					function(server_name)
-						lspconfig[server_name].setup({
-							capabilities = capabilities,
-						})
-					end,
-					["lua_ls"] = function()
-						lspconfig.lua_ls.setup({
-							capabilities = capabilities,
-							settings = {
-								Lua = {
-									workspace = {
-										checkThirdParty = false,
-									},
-								},
-							},
-						})
-					end,
-				},
 			})
 		end,
 	},
